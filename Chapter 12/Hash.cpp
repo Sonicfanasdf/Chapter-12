@@ -32,3 +32,40 @@ void Hash::hashMenu()
 		}
 	} while (true);
 }
+void Hash::initializeVector()
+{
+	ifstream read;
+
+	string iD;
+	string studentName;
+	string studentMajor;
+	string studentGPA;
+	int key;
+
+	Student student;
+
+	read.open("Students.dat");
+
+	while (!read.eof())
+	{
+		getline(read, iD, ',');
+		student.setStudentID(stoi(iD));
+		key = stoi(iD);
+
+		getline(read, studentName, ',');
+		student.setName(studentName);
+
+		getline(read, studentMajor, ',');
+		student.setMajor(studentMajor);
+
+		getline(read, studentGPA);
+		student.setGPA(stod(studentGPA));
+
+		students[hash(key)] = student;
+	}
+}
+
+int Hash::hash(int key)
+{
+	return key % students->size();
+}
