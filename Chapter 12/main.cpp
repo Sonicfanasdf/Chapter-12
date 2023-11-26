@@ -1,6 +1,8 @@
 #include<iostream>
 #include<string>
 #include"input.h"
+#include"Student.h"
+#include<list>
 using namespace std;
 
 void mainMenu();
@@ -38,4 +40,5 @@ void mainMenu()
 			break;
 		}
 	} while (true);
+
 }
