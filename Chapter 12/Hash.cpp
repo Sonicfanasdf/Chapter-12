@@ -41,9 +41,12 @@ void Hash::initializeVector()
 	string studentMajor;
 	string studentGPA;
 	int key;
-
+	int inc = 0;
 	Student student;
+	Student placeHolder;
 
+
+	s.resize(40);
 	read.open("Students.dat");
 
 	while (!read.eof())
@@ -61,11 +64,27 @@ void Hash::initializeVector()
 		getline(read, studentGPA);
 		student.setGPA(stod(studentGPA));
 
-		students[hash(key)] = student;
+		
+		s[hash(key)] = student;
+		
+	
 	}
 }
 
 int Hash::hash(int key)
 {
-	return key % students->size();
+	return key % 40;
+}
+
+void Hash::display()
+{
+	Student compare;
+
+	for (int i = 0; i < 40; i++)
+	{
+		if (compare != s[i])
+		{
+			cout << "[" << i << "] - " << s[i] << endl;
+		}
+	}
 }

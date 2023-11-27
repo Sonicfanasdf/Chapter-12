@@ -3,6 +3,7 @@
 #include"input.h"
 #include"Student.h"
 #include<list>
+#include"Hash.h"
 using namespace std;
 
 void mainMenu();
@@ -17,7 +18,7 @@ int main()
 
 void mainMenu()
 {
-	do
+	/*do
 	{
 		cout << "\n\tCMPR131 Chapter 12: Searches and hashing by Joe Bryant (11/27/23)\n";
 		cout << "\t" << string(100, char(205)) << endl;
@@ -39,6 +40,10 @@ void mainMenu()
 		case 3: system("cls");
 			break;
 		}
-	} while (true);
+	} while (true);*/
 
+	Hash h;
+
+	h.initializeVector();
+	h.display();
 }
