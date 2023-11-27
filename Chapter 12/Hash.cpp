@@ -2,6 +2,7 @@
 
 void Hash::hashMenu()
 {
+	
 	do
 	{
 		cout << "\n\t\t3> Application using hashing\n";
@@ -17,7 +18,9 @@ void Hash::hashMenu()
 
 		switch (inputChar("\t\t\tOption: ", "ABCDE0"))
 		{
-		case 'A':
+		case 'A': size = inputInteger("\n\t\t\tEnter a number of read-in records: ", 1, 40);
+			cout << "\n\t\t\t" << size << " records have been inserted.\n";
+			 initializeVector();
 			break;
 		case 'B':
 			break;
@@ -25,11 +28,13 @@ void Hash::hashMenu()
 			break;
 		case 'D':
 			break;
-		case 'E':
+		case 'E': hashDisplay();
+			
 			break;
 		case '0': system("cls"); return;
 			break;
 		}
+		
 	} while (true);
 }
 void Hash::initializeVector()
@@ -41,7 +46,8 @@ void Hash::initializeVector()
 	string studentMajor;
 	string studentGPA;
 	int key;
-	int inc = 0;
+	int inc = 1;
+	int index;
 	Student student;
 	Student placeHolder;
 
@@ -49,7 +55,8 @@ void Hash::initializeVector()
 	s.resize(40);
 	read.open("Students.dat");
 
-	while (!read.eof())
+	
+	for (int i = 0; i < size; i++)
 	{
 		getline(read, iD, ',');
 		student.setStudentID(stoi(iD));
@@ -64,23 +71,73 @@ void Hash::initializeVector()
 		getline(read, studentGPA);
 		student.setGPA(stod(studentGPA));
 
-		
-		s[hash(key)] = student;
-		
-	
+		index = hash(key);
+
+		while (s[index] != placeHolder)
+		{
+			index = (index + 1) % s.size(); // Linear probing to find an empty slot
+		}
+
+		s[index] = student;
+
+		/*for (int i = 0; i < size; i++)
+		{
+			getline(read, iD, ',');
+			student.setStudentID(stoi(iD));
+			key = stoi(iD);
+
+			getline(read, studentName, ',');
+			student.setName(studentName);
+
+			getline(read, studentMajor, ',');
+			student.setMajor(studentMajor);
+
+			getline(read, studentGPA);
+			student.setGPA(stod(studentGPA));
+
+			if (s[hash(key)] != placeHolder)
+			{
+				for (int k = hash(key); k < s.size() && s[k] != placeHolder; k++)
+				{
+					index = k;
+				}
+				if ((index + 1) >= s.size())
+				{
+					index = 0;
+					for (int j = 0; j < hash(key) && s[j] != placeHolder; j++)
+					{
+						index = j;
+					}
+					s[index] = student;
+				}
+				else
+				{
+					s[index + 1] = student;
+				}
+
+			}
+			else
+			{
+				s[hash(key)] = student;
+			}
+
+		}*/
+
 	}
 }
 
 int Hash::hash(int key)
 {
-	return key % 40;
+	return key % s.size();
 }
 
-void Hash::display()
+void Hash::hashDisplay()
 {
 	Student compare;
 
-	for (int i = 0; i < 40; i++)
+	cout << endl;
+
+	for (int i = 0; i < s.size(); i++)
 	{
 		if (compare != s[i])
 		{

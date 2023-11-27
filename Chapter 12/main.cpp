@@ -18,8 +18,11 @@ int main()
 
 void mainMenu()
 {
-	/*do
+	
+	do
 	{
+		Hash h;
+		
 		cout << "\n\tCMPR131 Chapter 12: Searches and hashing by Joe Bryant (11/27/23)\n";
 		cout << "\t" << string(100, char(205)) << endl;
 		cout << "\t\t1> Searching from an unsorted dynamic array\n";
@@ -37,13 +40,11 @@ void mainMenu()
 			break;
 		case 2: system("cls");
 			break;
-		case 3: system("cls");
+		case 3: system("cls"); h.hashMenu();
 			break;
 		}
-	} while (true);*/
+	} while (true);
 
-	Hash h;
+	
 
-	h.initializeVector();
-	h.display();
 }
