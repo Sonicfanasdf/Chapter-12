@@ -9,6 +9,8 @@ using namespace std;
 char inputChar(string prompt, string options);
 int inputInteger(string prompt, int startRange, int endRange);
 int inputInteger(string prompt, bool posNeg);
+string inputString(string prompt, bool spaces);
+double inputDouble(string prompt, double startRange, double endRange);
 
 class Hash
 {
@@ -22,4 +24,5 @@ public:
 	void hashDisplay();
 	void hashSearch();
 	void hashDelete();
+	void hashInsert();
 };

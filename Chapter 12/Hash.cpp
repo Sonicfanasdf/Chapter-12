@@ -1,5 +1,7 @@
 #include"Hash.h"
 
+//Precondition: NA
+//Postcondition: Displays Menu
 void Hash::hashMenu()
 {
 	
@@ -18,13 +20,12 @@ void Hash::hashMenu()
 
 		switch (inputChar("\t\t\tOption: ", "ABCDE0"))
 		{
-		case 'A': size = inputInteger("\n\t\t\tEnter a number of read-in records: ", 1, 40);
-			cout << "\n\t\t\t" << size << " records have been inserted.\n";
+		case 'A': 
 			 initializeVector();
 			break;
 		case 'B': hashSearch();
 			break;
-		case 'C':
+		case 'C': hashInsert();
 			break;
 		case 'D': hashDelete();
 			break;
@@ -46,16 +47,38 @@ void Hash::initializeVector()
 	string studentMajor;
 	string studentGPA;
 	int key;
-	int inc = 1;
 	int index;
+	bool hasEntry = false;
 	Student student;
 	Student placeHolder;
 
+	for (int l = 0; l < s.size(); l++)
+	{
+		if (s[l] != placeHolder)
+		{
+			hasEntry = true;
+		}
+	}
+
+	if (hasEntry)
+	{
+		cout << "\n\t\t\tERROR: File has already been read.\n\n";
+		system("pause");
+		return;
+	}
 
 	s.resize(40);
 	read.open("Students.dat");
 
+	if (!read)
+	{
+		cout << "\n\t\t\tERROR: FILE DID NOT OPEN\n\n";
+		exit(1);
+	}
 	
+	size = inputInteger("\n\t\t\tEnter a number of read-in records: ", 1, 40);
+	cout << "\n\t\t\t" << size << " records have been inserted.\n\n";
+
 	for (int i = 0; i < size; i++)
 	{
 		getline(read, iD, ',');
@@ -75,55 +98,16 @@ void Hash::initializeVector()
 
 		while (s[index] != placeHolder)
 		{
-			index = (index + 1) % s.size(); // Linear probing to find an empty slot
+			index = (index + 1) % s.size(); 
 		}
 
 		s[index] = student;
 
-		/*for (int i = 0; i < size; i++)
-		{
-			getline(read, iD, ',');
-			student.setStudentID(stoi(iD));
-			key = stoi(iD);
-
-			getline(read, studentName, ',');
-			student.setName(studentName);
-
-			getline(read, studentMajor, ',');
-			student.setMajor(studentMajor);
-
-			getline(read, studentGPA);
-			student.setGPA(stod(studentGPA));
-
-			if (s[hash(key)] != placeHolder)
-			{
-				for (int k = hash(key); k < s.size() && s[k] != placeHolder; k++)
-				{
-					index = k;
-				}
-				if ((index + 1) >= s.size())
-				{
-					index = 0;
-					for (int j = 0; j < hash(key) && s[j] != placeHolder; j++)
-					{
-						index = j;
-					}
-					s[index] = student;
-				}
-				else
-				{
-					s[index + 1] = student;
-				}
-
-			}
-			else
-			{
-				s[hash(key)] = student;
-			}
-
-		}*/
-
 	}
+
+	read.close();
+
+	system("pause");
 }
 
 int Hash::hash(int key)
@@ -134,6 +118,22 @@ int Hash::hash(int key)
 void Hash::hashDisplay()
 {
 	Student compare;
+	bool emptyVector = true;
+
+	for (int n = 0; n < s.size(); n++)
+	{
+		if (s[n] != compare)
+		{
+			emptyVector = false;
+		}
+	}
+
+	if (emptyVector)
+	{
+		cout << "\n\t\t\tERROR: No record found.\n\n";
+		system("pause");
+		return;
+	}
 
 	cout << endl;
 
@@ -141,13 +141,18 @@ void Hash::hashDisplay()
 	{
 		if (compare != s[i])
 		{
-			cout << "[" << i << "] - " << s[i] << endl;
+			cout << "\t\t\t[" << i << "] - " << s[i] << endl;
 		}
 	}
+
+	cout << endl;
+	system("pause");
 }
 void Hash::hashSearch()
 {
 	int tempKey;
+	bool found = false;
+
 
 	tempKey = inputInteger("\n\t\t\tEnter a student ID to search: ", true);
 
@@ -160,14 +165,22 @@ void Hash::hashSearch()
 			cout << "\t\t\t\tName         : " << s[m].getName() << endl;
 			cout << "\t\t\t\tMajor        : " << s[m].getMajor() << endl;
 			cout << "\t\t\t\tGPA          : " << s[m].getGPA() << endl << endl;
-
+			found = true;
+			system("pause");
 			break;
 		}
+	}
+	if (found == false)
+	{
+		cout << "\n\t\t\tERROR: ID not found.\n\n";
+		system("pause");
 	}
 }
 void Hash::hashDelete()
 {
 	int keyHolder;
+	bool found = false;
+	Student temp;
 
 
 	keyHolder = inputInteger("\n\t\t\tEnter a student ID to remove: ", true);
@@ -176,11 +189,83 @@ void Hash::hashDelete()
 	{
 		if (s[k].getStudentID() == keyHolder)
 		{
-			cout << "\n\t\t\t Student record index #" << k << " with ID: " << keyHolder << " has been removed.\n\n";
-
-			auto it = s.begin() + k;
-			s.erase(it);
+			cout << "\n\t\t\tStudent record index #" << k << " with ID: " << keyHolder << " has been removed.\n\n";
+			found = true;
+			s[k] = temp;
+			system("pause");
 			break;
 		}
 	}
+	if (found == false)
+	{
+		cout << "\n\t\t\tERROR: ID not found.\n\n";
+		system("pause");
+	}
+}
+void Hash::hashInsert()
+{
+	Student newStudent;
+	Student empty;
+	int tempID;
+	int newKey;
+	int index;
+	bool full = true;
+	string tempName;
+	string tempMajor;
+	double tempGPA;
+
+	for (int j = 0; j < s.size(); j++)
+	{
+		if (s[j] == empty)
+		{
+			full = false;
+		}
+	}
+
+	if (full)
+	{
+		cout << "\n\t\t\tERROR: Array is full. Cannot insert any more record.\n\n";
+		system("pause");
+		return;
+	}
+
+	tempID = inputInteger("\n\t\t\tEnter a new student ID: ", true);
+
+	for (int m = hash(tempID); m < s.size(); m++)
+	{
+		if (s[m].getStudentID() == tempID)
+		{
+			cout << "\n\t\t\tERROR: ID has already inserted.\n\n";
+			system("pause");
+			return;
+		}
+	}
+
+	newStudent.setStudentID(tempID);
+	newKey = tempID;
+
+	tempName = inputString("\t\t\tEnter the student's name: ", true);
+	newStudent.setName(tempName);
+
+	tempMajor = inputString("\t\t\tEnter the student's major: ", true);
+	newStudent.setMajor(tempMajor);
+
+	tempGPA = inputDouble("\t\t\tEnter a student's GPA (1.0..4.0): ", 1.0, 4.0);
+	newStudent.setGPA(tempGPA);
+
+	index = hash(newKey);
+
+	
+
+	while (s[index] != empty)
+	{
+		index = (index + 1) % s.size(); 
+	}
+
+	s[index] = newStudent;
+
+	cout << "\n\t\t\tInserted the new record.\n\n";
+
+	system("pause");
+
 }
