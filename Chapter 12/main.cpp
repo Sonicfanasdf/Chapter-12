@@ -16,6 +16,8 @@ int main()
 	return 0;
 }
 
+//Precondition: NA
+//Postcondition: displays main menu
 void mainMenu()
 {
 	

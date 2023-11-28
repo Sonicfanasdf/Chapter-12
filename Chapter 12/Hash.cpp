@@ -38,6 +38,8 @@ void Hash::hashMenu()
 		
 	} while (true);
 }
+//Precondition: NA
+//Postcondition: initializes the vector
 void Hash::initializeVector()
 {
 	ifstream read;
@@ -109,12 +111,14 @@ void Hash::initializeVector()
 
 	system("pause");
 }
-
+//Precondition: a positive integer
+//Postcondition: returns hash value
 int Hash::hash(int key)
 {
 	return key % s.size();
 }
-
+//Precondition: NA
+//Postcondition: Displays the student vector
 void Hash::hashDisplay()
 {
 	Student compare;
@@ -148,6 +152,8 @@ void Hash::hashDisplay()
 	cout << endl;
 	system("pause");
 }
+//Precondition: NA
+//Postcondition: Searches vector for matching key
 void Hash::hashSearch()
 {
 	int tempKey;
@@ -176,6 +182,8 @@ void Hash::hashSearch()
 		system("pause");
 	}
 }
+//Precondition: NA
+//Postcondition: deletes student from vector
 void Hash::hashDelete()
 {
 	int keyHolder;
@@ -202,6 +210,8 @@ void Hash::hashDelete()
 		system("pause");
 	}
 }
+//Precondition: NA
+//Postcondition: inserts new student into vector
 void Hash::hashInsert()
 {
 	Student newStudent;
