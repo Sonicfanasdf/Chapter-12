@@ -8,6 +8,7 @@ using namespace std;
 
 char inputChar(string prompt, string options);
 int inputInteger(string prompt, int startRange, int endRange);
+int inputInteger(string prompt, bool posNeg);
 
 class Hash
 {
@@ -19,4 +20,6 @@ public:
 	void initializeVector();
 	int hash(int key);
 	void hashDisplay();
+	void hashSearch();
+	void hashDelete();
 };

@@ -22,11 +22,11 @@ void Hash::hashMenu()
 			cout << "\n\t\t\t" << size << " records have been inserted.\n";
 			 initializeVector();
 			break;
-		case 'B':
+		case 'B': hashSearch();
 			break;
 		case 'C':
 			break;
-		case 'D':
+		case 'D': hashDelete();
 			break;
 		case 'E': hashDisplay();
 			
@@ -142,6 +142,45 @@ void Hash::hashDisplay()
 		if (compare != s[i])
 		{
 			cout << "[" << i << "] - " << s[i] << endl;
+		}
+	}
+}
+void Hash::hashSearch()
+{
+	int tempKey;
+
+	tempKey = inputInteger("\n\t\t\tEnter a student ID to search: ", true);
+
+	for (int m = hash(tempKey); m < s.size(); m++)
+	{
+		if (s[m].getStudentID() == tempKey)
+		{
+			cout << "\n\t\t\tStudent record found at index #" << m << "\n";
+			cout << "\t\t\t\tStudentID    : " << s[m].getStudentID() << endl;
+			cout << "\t\t\t\tName         : " << s[m].getName() << endl;
+			cout << "\t\t\t\tMajor        : " << s[m].getMajor() << endl;
+			cout << "\t\t\t\tGPA          : " << s[m].getGPA() << endl << endl;
+
+			break;
+		}
+	}
+}
+void Hash::hashDelete()
+{
+	int keyHolder;
+
+
+	keyHolder = inputInteger("\n\t\t\tEnter a student ID to remove: ", true);
+
+	for (int k = hash(keyHolder); k < s.size(); k++)
+	{
+		if (s[k].getStudentID() == keyHolder)
+		{
+			cout << "\n\t\t\t Student record index #" << k << " with ID: " << keyHolder << " has been removed.\n\n";
+
+			auto it = s.begin() + k;
+			s.erase(it);
+			break;
 		}
 	}
 }
