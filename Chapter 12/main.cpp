@@ -2,7 +2,6 @@
 #include<string>
 #include"input.h"
 #include"Student.h"
-#include<list>
 #include"Hash.h"
 using namespace std;
 
